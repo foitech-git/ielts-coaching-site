@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel | BandBridge IELTS Academy</title>
+    <meta name="description" content="Local admin panel for editing BandBridge IELTS Academy website content." />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="admin-body">
+    <header class="site-header" data-header>
+      <a class="brand" href="./index.html#top" aria-label="BandBridge IELTS Academy home">
+        <span class="brand-mark" aria-hidden="true">B</span>
+        <span>
+          <strong>BandBridge</strong>
+          <small>Admin Panel</small>
+        </span>
+      </a>
+
+      <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" data-menu-button>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav" data-nav aria-label="Main navigation">
+        <a href="./index.html#top">Home</a>
+        <a href="./blog.html">Blog</a>
+        <a href="./admin.html" aria-current="page">Admin</a>
+      </nav>
+
+      <a class="header-cta" href="./index.html#top">View Site</a>
+    </header>
+
+    <main class="admin-shell">
+      <section class="admin-hero">
+        <p class="eyebrow">Website content manager</p>
+        <h1>Control the IELTS coaching site.</h1>
+        <p>
+          Edit content, add new rows, delete old items, and save changes to this browser. Use export/import to move
+          content to another browser or machine.
+        </p>
+      </section>
+
+      <section class="admin-actions">
+        <button class="button primary" type="button" data-save-admin>Save changes</button>
+        <button class="button secondary" type="button" data-export-admin>Export JSON</button>
+        <button class="button secondary" type="button" data-import-admin>Import JSON</button>
+        <button class="button ghost" type="button" data-reset-admin>Reset defaults</button>
+        <p class="admin-status" role="status" data-admin-status></p>
+      </section>
+
+      <section class="admin-import" data-import-box hidden>
+        <label>
+          Paste exported JSON
+          <textarea rows="8" data-import-text placeholder='{"hero": ...}'></textarea>
+        </label>
+        <div>
+          <button class="button primary" type="button" data-apply-import>Apply import</button>
+          <button class="button secondary" type="button" data-cancel-import>Cancel</button>
+        </div>
+      </section>
+
+      <div class="admin-layout">
+        <aside class="admin-tabs" data-admin-tabs aria-label="Admin sections"></aside>
+        <section class="admin-panel" data-admin-panel></section>
+      </div>
+    </main>
+
+    <script src="./site-data.js"></script>
+    <script src="./script.js"></script>
+    <script src="./admin.js"></script>
+  </body>
+</html>

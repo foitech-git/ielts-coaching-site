@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BandBridge IELTS Academy</title>
+    <meta
+      name="description"
+      content="BandBridge IELTS Academy offers focused classroom and online IELTS coaching for Academic and General Training candidates."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-home-page>
+    <header class="site-header" data-header>
+      <a class="brand" href="./index.html#top" aria-label="BandBridge IELTS Academy home">
+        <span class="brand-mark" aria-hidden="true">B</span>
+        <span>
+          <strong>BandBridge</strong>
+          <small>IELTS Academy</small>
+        </span>
+      </a>
+
+      <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" data-menu-button>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav" data-nav aria-label="Main navigation">
+        <a href="#courses">Courses</a>
+        <a href="#method">Method</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#results">Results</a>
+        <a href="#stories">Scores</a>
+        <a href="#blog">Blog</a>
+        <a href="./admin.html">Admin</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <a class="header-cta" href="#contact">Book Demo</a>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-media" data-hero-media aria-hidden="true"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-inner">
+          <div class="hero-content">
+            <p class="eyebrow">Academic and General Training</p>
+            <h1 id="hero-title">IELTS Academy</h1>
+            <p class="hero-copy">
+              Score-focused IELTS coaching with module-wise practice, trainer feedback, mock tests, and clear study
+              plans for your target band.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="#contact">Start with a free demo</a>
+              <a class="button secondary" href="#courses">View courses</a>
+            </div>
+            <dl class="hero-highlights" aria-label="Academy highlights" data-hero-stats></dl>
+          </div>
+
+          <form
+            class="hero-form inquiry-form"
+            data-contact-form
+            data-form-message="Thanks. Your free demo request is saved and our counselor will call you shortly."
+          >
+            <span class="form-kicker">Free demo class</span>
+            <h2>Get your IELTS band plan</h2>
+            <label>
+              Phone number
+              <input type="tel" name="phone" placeholder="+91 98765 43210" required />
+            </label>
+            <label>
+              Target band
+              <select name="band" required>
+                <option value="">Select target</option>
+                <option>Band 6.0</option>
+                <option>Band 6.5</option>
+                <option>Band 7.0</option>
+                <option>Band 7.5+</option>
+              </select>
+            </label>
+            <button class="button primary" type="submit">Request demo call</button>
+            <p class="form-status" role="status" data-form-status></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="trust-band" aria-label="Program features" data-trust-list></section>
+
+      <section class="section section-light" id="courses">
+        <div class="section-heading">
+          <p class="eyebrow">Choose your track</p>
+          <h2>IELTS coaching built around your target score.</h2>
+          <p>
+            Select a goal below to see the best-fit course. Every course includes vocabulary drills, timed module
+            practice, and detailed performance reviews.
+          </p>
+        </div>
+
+        <div class="goal-selector" role="tablist" aria-label="Target band options" data-course-tabs></div>
+        <div class="course-grid" data-course-grid></div>
+      </section>
+
+      <section class="section split-section" id="method">
+        <div class="section-heading align-left">
+          <p class="eyebrow">Our method</p>
+          <h2>Every student gets a visible path from diagnostic test to exam day.</h2>
+          <p>
+            We map your current band, fix repeat mistakes, and use timed mocks so the final test feels familiar.
+          </p>
+        </div>
+
+        <div class="method-list" data-method-list></div>
+      </section>
+
+      <section class="section section-accent schedule-section" id="schedule">
+        <div class="section-heading">
+          <p class="eyebrow">Batch schedule</p>
+          <h2>Flexible study plans for students and working professionals.</h2>
+        </div>
+
+        <div class="schedule-grid" aria-label="Available batches" data-schedule-list></div>
+      </section>
+
+      <section class="section results-section" id="results">
+        <div class="results-panel">
+          <div>
+            <p class="eyebrow">Student results</p>
+            <h2>Focused correction creates measurable score movement.</h2>
+            <p>
+              Our review system tracks accuracy, fluency, vocabulary range, grammar control, and timing across every
+              module.
+            </p>
+          </div>
+          <div class="result-metrics" data-result-metrics></div>
+        </div>
+
+        <div class="testimonial-grid" data-feedback-list></div>
+      </section>
+
+      <section class="section success-section" id="stories">
+        <div class="section-heading">
+          <p class="eyebrow">High-band achievers</p>
+          <h2>Students who cracked IELTS with strong band scores.</h2>
+          <p>
+            These sample success stories show the kind of outcomes students can aim for with regular mocks, correction,
+            and trainer-led practice.
+          </p>
+        </div>
+
+        <div class="goal-selector" role="tablist" aria-label="Achiever bands" data-achiever-tabs></div>
+        <div class="achiever-slider" aria-label="Successful student band scores">
+          <button class="slider-button" type="button" aria-label="Previous achievers" data-achiever-prev>
+            <span aria-hidden="true">‹</span>
+          </button>
+          <div class="score-grid achiever-track" data-achiever-list></div>
+          <button class="slider-button" type="button" aria-label="Next achievers" data-achiever-next>
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="section blog-preview" id="blog">
+        <div class="section-heading">
+          <p class="eyebrow">IELTS blog</p>
+          <h2>Simple guides for smarter IELTS preparation.</h2>
+          <p>
+            Short, practical articles that help students plan their study routine and avoid common band-losing mistakes.
+          </p>
+        </div>
+
+        <div class="blog-grid" data-blog-preview></div>
+
+        <div class="section-action">
+          <a class="button secondary" href="./blog.html">Visit blog page</a>
+        </div>
+      </section>
+
+      <section class="section faq-section" aria-labelledby="faq-title">
+        <div class="section-heading">
+          <p class="eyebrow">Questions</p>
+          <h2 id="faq-title">What students usually ask before joining.</h2>
+        </div>
+
+        <div class="faq-list" data-faq-list></div>
+      </section>
+
+      <section class="contact-section" id="contact">
+        <div class="contact-copy">
+          <p class="eyebrow">Free demo class</p>
+          <h2>Tell us your target band and test month.</h2>
+          <p>
+            Share a few details and our counselor will suggest the right batch, study duration, and module focus.
+          </p>
+          <div class="contact-info">
+            <a href="tel:+919876543210">+91 98765 43210</a>
+            <a href="mailto:hello@bandbridgeielts.com">hello@bandbridgeielts.com</a>
+            <span>2nd Floor, City Centre, Main Road</span>
+          </div>
+        </div>
+
+        <form
+          class="contact-form inquiry-form"
+          data-contact-form
+          data-form-message="Thanks, {name}. We will call you shortly with the best IELTS batch option."
+        >
+          <label>
+            Full name
+            <input type="text" name="name" placeholder="Your name" required />
+          </label>
+          <label>
+            Phone number
+            <input type="tel" name="phone" placeholder="+91 98765 43210" required />
+          </label>
+          <label>
+            Target band
+            <select name="band" required>
+              <option value="">Select target</option>
+              <option>Band 6.0</option>
+              <option>Band 6.5</option>
+              <option>Band 7.0</option>
+              <option>Band 7.5+</option>
+            </select>
+          </label>
+          <label>
+            Preferred batch
+            <select name="batch" required>
+              <option value="">Select batch</option>
+              <option>Morning</option>
+              <option>Evening</option>
+              <option>Weekend</option>
+              <option>Online</option>
+            </select>
+          </label>
+          <label class="full">
+            Message
+            <textarea name="message" rows="4" placeholder="I plan to take IELTS in..."></textarea>
+          </label>
+          <button class="button primary full" type="submit">Request call back</button>
+          <p class="form-status" role="status" data-form-status></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>BandBridge IELTS Academy</p>
+      <div>
+        <a href="#courses">Courses</a>
+        <a href="#schedule">Batches</a>
+        <a href="./blog.html">Blog</a>
+        <a href="./admin.html">Admin</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </footer>
+
+    <script src="./site-data.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
