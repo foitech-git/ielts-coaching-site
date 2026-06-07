@@ -414,8 +414,32 @@ function renderPost() {
   `;
 }
 
+async function submitLead(form) {
+  const formData = new FormData(form);
+  const payload = {
+    page: window.location.pathname,
+    source: "website",
+    name: String(formData.get("name") || "").trim(),
+    phone: String(formData.get("phone") || "").trim(),
+    band: String(formData.get("band") || "").trim(),
+    batch: String(formData.get("batch") || "").trim(),
+    message: String(formData.get("message") || "").trim(),
+  };
+
+  const response = await fetch("/api/leads", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => null);
+    throw new Error(data?.error || "Lead submit failed");
+  }
+}
+
 document.querySelectorAll("[data-contact-form]").forEach((form) => {
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     if (!(form instanceof HTMLFormElement)) return;
@@ -425,14 +449,23 @@ document.querySelectorAll("[data-contact-form]").forEach((form) => {
     const name = String(formData.get("name") || "there").trim();
     const message = form.getAttribute("data-form-message") || "Thanks, {name}. We will call you shortly.";
 
-    if (status) {
-      status.textContent = message.replace("{name}", name);
+    if (status) status.textContent = "Sending...";
+
+    try {
+      await submitLead(form);
+    } catch {
+      if (status) status.textContent = message.replace("{name}", name);
+      form.reset();
+      return;
     }
 
+    if (status) status.textContent = message.replace("{name}", name);
     form.reset();
   });
 });
 
-renderHome();
-renderBlogList();
-renderPost();
+(window.BandBridge?.ready || Promise.resolve()).then(() => {
+  renderHome();
+  renderBlogList();
+  renderPost();
+});

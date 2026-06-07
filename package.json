@@ -1,0 +1,9 @@
+{
+  "name": "ielts-coaching-site",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "@vercel/blob": "2.4.0",
+    "@vercel/postgres": "0.10.0"
+  }
+}

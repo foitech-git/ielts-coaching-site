@@ -153,10 +153,27 @@
     return JSON.parse(JSON.stringify(value));
   }
 
+  function isPlainObject(value) {
+    return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+  }
+
+  function mergeDeep(baseValue, patchValue) {
+    if (Array.isArray(patchValue)) return patchValue;
+    if (isPlainObject(baseValue) && isPlainObject(patchValue)) {
+      const merged = { ...baseValue };
+      Object.keys(patchValue).forEach((key) => {
+        merged[key] = mergeDeep(baseValue[key], patchValue[key]);
+      });
+      return merged;
+    }
+    return patchValue === undefined ? baseValue : patchValue;
+  }
+
   function getData() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : clone(defaultData);
+      const parsed = saved ? JSON.parse(saved) : null;
+      return mergeDeep(clone(defaultData), parsed || {});
     } catch {
       return clone(defaultData);
     }
@@ -183,6 +200,20 @@
     return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2, 7)}`;
   }
 
+  let remoteEnabled = false;
+  const ready = (async () => {
+    try {
+      const response = await fetch("/api/content", { cache: "no-store" });
+      if (!response.ok) return;
+      const payload = await response.json();
+      if (!payload || typeof payload !== "object") return;
+      if (!payload.data || typeof payload.data !== "object") return;
+      const merged = mergeDeep(clone(defaultData), payload.data);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+      remoteEnabled = true;
+    } catch {}
+  })();
+
   window.BandBridge = {
     STORAGE_KEY,
     defaultData,
@@ -192,5 +223,9 @@
     clone,
     slugify,
     uid,
+    ready,
+    get remoteEnabled() {
+      return remoteEnabled;
+    },
   };
 })();

@@ -7,6 +7,8 @@ const importText = document.querySelector("[data-import-text]");
 let draft = window.BandBridge.getData();
 let activeSection = "hero";
 
+const ADMIN_TOKEN_KEY = "bandbridge-admin-token";
+
 const fieldConfigs = {
   hero: {
     label: "Hero & Images",
@@ -163,6 +165,32 @@ function showStatus(message, isError = false) {
   adminStatus.classList.toggle("is-error", isError);
 }
 
+async function ensureAdminToken() {
+  const existing = sessionStorage.getItem(ADMIN_TOKEN_KEY);
+  if (existing) return existing;
+
+  const password = window.prompt("Admin password");
+  if (!password) throw new Error("Missing password");
+
+  const response = await fetch("/api/auth", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password }),
+  });
+
+  if (!response.ok) throw new Error("Login failed");
+  const data = await response.json();
+  if (!data?.token) throw new Error("Login failed");
+  sessionStorage.setItem(ADMIN_TOKEN_KEY, data.token);
+  return data.token;
+}
+
+async function adminFetch(path, options = {}) {
+  const token = await ensureAdminToken();
+  const headers = { ...(options.headers || {}), Authorization: `Bearer ${token}` };
+  return fetch(path, { ...options, headers });
+}
+
 function renderTabs() {
   adminTabs.innerHTML = Object.entries(fieldConfigs)
     .map(
@@ -278,8 +306,30 @@ function handleFileUpload(input) {
   if (!file || !path) return;
 
   const reader = new FileReader();
-  reader.addEventListener("load", () => {
-    setPath(path, reader.result);
+  reader.addEventListener("load", async () => {
+    const dataUrl = reader.result;
+    if (window.BandBridge.remoteEnabled) {
+      try {
+        showStatus("Uploading image...");
+        const response = await adminFetch("/api/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ dataUrl, filename: file.name }),
+        });
+
+        if (!response.ok) throw new Error("Upload failed");
+        const data = await response.json();
+        if (!data?.url) throw new Error("Upload failed");
+        setPath(path, data.url);
+        renderAdminPanel();
+        showStatus("Image uploaded. Save changes to publish.");
+        return;
+      } catch {
+        showStatus("Could not upload. Using local image data.", true);
+      }
+    }
+
+    setPath(path, dataUrl);
     renderAdminPanel();
     showStatus("Image loaded. Save changes to publish it.");
   });
@@ -326,12 +376,24 @@ adminPanel?.addEventListener("click", (event) => {
 });
 
 document.querySelector("[data-save-admin]")?.addEventListener("click", () => {
-  try {
-    window.BandBridge.saveData(draft);
-    showStatus("Saved. Refresh the home or blog page to see the latest content.");
-  } catch (error) {
-    showStatus("Could not save. The uploaded image may be too large for browser storage.", true);
-  }
+  (async () => {
+    try {
+      if (window.BandBridge.remoteEnabled) {
+        showStatus("Saving to database...");
+        const response = await adminFetch("/api/content", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(draft),
+        });
+        if (!response.ok) throw new Error("Remote save failed");
+      }
+
+      window.BandBridge.saveData(draft);
+      showStatus(window.BandBridge.remoteEnabled ? "Saved to database." : "Saved in this browser.");
+    } catch {
+      showStatus("Could not save. Check admin password and database config.", true);
+    }
+  })();
 });
 
 document.querySelector("[data-reset-admin]")?.addEventListener("click", () => {
@@ -379,4 +441,7 @@ document.querySelector("[data-apply-import]")?.addEventListener("click", () => {
   }
 });
 
-renderAdminPanel();
+(window.BandBridge?.ready || Promise.resolve()).then(() => {
+  draft = window.BandBridge.getData();
+  renderAdminPanel();
+});
